@@ -1,5 +1,5 @@
 '--------------------------------------------------------------------------------------------------------------------------------------------------
-'	Email_handtekening_btl.vbs
+'	Email_handtekening_e-genius.vbs
 '--------------------------------------------------------------------------------------------------------------------------------------------------
 ' Door: T.Duis (E-genius)
 '
@@ -12,13 +12,10 @@
 ' 24-10-2008	(TD) Script omgebouwd zodat: AD Default groep als basis email handtekening wordt ingesteld
 ' 28-10-2008	(TD) Groepen Sec_AdviesStein en Sec_Oisterwijk toegevoegd.
 ' 28-10-2008	(TD) RGB kleuren aanpassing voor 'denk aan milieu' regel
-'			BTL: 179,213,151 (#b3d597) en Tuinstijl: 127,187,86 (#7fbb56)
+'			XXX: 179,213,151 (#b3d597) en XXXXX: 127,187,86 (#7fbb56)
 ' 02-03-2009	sec_boogaart toegevoegd
-' 09-03-2009	Voor default groep onderverdeling voor FiveStar Grass gemaakt. Daarnaast als prigroup "Domain Users" is,
+' 09-03-2009	Voor default groep onderverdeling voor XXXXXXXs gemaakt. Daarnaast als prigroup "Domain Users" is,
 '			dan laatste groep als default instellen.
-'			tuinstijl handtekeningen mogelijk gemaakt middels groepen tuinstijl_maarssen, tuinstijl_bruinisse, tuinstijl_roermond
-'			tuinstijl_stein, tuinstijl_veldhoven, tuinstijl_hengelo, tuinstijl_roosendaal, tuinstijl_joure, tuinstijl_haaren
-'			idem voor regio_directeur_zuid, regio_directeur_noord-oost, regio_directeur_midden-west.
 
 
 Set objArgs = WScript.Arguments
@@ -78,7 +75,7 @@ objCommand.Properties("Chase referrals") = 64 'ADS_CHASE_REFERRALS_EXTERNAL
 objCommand.Properties("Asynchronous") = True 
 objCommand.Properties("Cache results") = False 
 
-tmp="SELECT cn,Name,sAMAccountName,GivenName,Sn,displayName,mail,mailNickname,memberOf,mobile,description,department,title FROM 'LDAP://dc=btlgroep,dc=domein' WHERE objectCategory='user' " & _
+tmp="SELECT cn,Name,sAMAccountName,GivenName,Sn,displayName,mail,mailNickname,memberOf,mobile,description,department,title FROM 'LDAP://dc=e-genius,dc=lan' WHERE objectCategory='user' " & _
         "AND sAMAccountName='" & objArgs(0) & "'"
 
 objCommand.CommandText = tmp
@@ -119,7 +116,7 @@ Do Until objRecordSet.EOF
 	If LCase(strPrimaryGroup)="domain users" Then
 		Wscript.Echo "Primary Group: Domain Users"
 	Else
-		strCN="LDAP://" & "CN=" & strPrimaryGroup & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+		strCN="LDAP://" & "CN=" & strPrimaryGroup & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 		set objGroup = GetObject(strCN)
 
 		'WScript.Echo objGroup.info
@@ -160,7 +157,7 @@ Do Until objRecordSet.EOF
 	'Loop door alle groepen en bij juiste Sec_xxxx groepen instellingen ophalen
 	For Each strGroep in objmemberOf
 
-			'Nu op comma splitten (CN=Sec_Hoofdkantoor,OU=02 Security Groepen,dc=btlgroep,dc=domein)
+			'Nu op comma splitten (CN=Sec_Hoofdkantoor,OU=02 Security Groepen,dc=e-genius,dc=lan)
 			tmp = Split(strGroep, ",") 
 			'Vervolgens op = splitsen
 			strGrpName = Split(tmp(0), "=")
@@ -169,7 +166,7 @@ Do Until objRecordSet.EOF
 			Select case LCase(strGrpName(1))
 				Case "sec_realisatie_hoofdkantoor"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					'WScript.Echo "\n" & strCN
 					set objGroup = GetObject(strCN)
 
@@ -193,7 +190,7 @@ Do Until objRecordSet.EOF
 					End If					
 				Case "sec_hoofdkantoor"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					'WScript.Echo strCN
 					set objGroup = GetObject(strCN)
 					'WScript.Echo objGroup.whenCreated
@@ -218,7 +215,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_bedrijsbureau"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					'Script.Echo strCN
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
@@ -240,7 +237,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_verhoeven"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					'Uitlezen van 
 					info=objGroup.info					
@@ -262,7 +259,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_haaren"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					'Uitlezen van 
 					info=objGroup.info
@@ -284,7 +281,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_arnhem"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					'Uitlezen van 
 					info=objGroup.info
@@ -306,7 +303,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_bomendienst"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -327,7 +324,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_boogaart"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -348,7 +345,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_bruinisse"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -369,7 +366,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_eindhoven"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -385,7 +382,7 @@ Do Until objRecordSet.EOF
 
 									Case "sec_denoo"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -406,7 +403,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_directie"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -428,7 +425,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_emmen"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -449,7 +446,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_hsluis"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -470,7 +467,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_maarssen"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -491,7 +488,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_oss"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -512,7 +509,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_roermond"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -533,7 +530,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_roosendaal"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -554,7 +551,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_stein"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -575,7 +572,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_subbase"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -597,7 +594,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_trias"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -618,7 +615,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_ulrum"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -639,7 +636,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_veldhoven"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -660,7 +657,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_verhoeven"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -681,7 +678,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_oisterwijk"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -702,7 +699,7 @@ Do Until objRecordSet.EOF
 					
 				Case "sec_adviesstein"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -725,7 +722,7 @@ Do Until objRecordSet.EOF
 				'-------------------------------------------------------------------------------------------------------
 				Case "tuinstijl_bruinisse"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -746,7 +743,7 @@ Do Until objRecordSet.EOF
 					
 				Case "tuinstijl_haaren"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -767,7 +764,7 @@ Do Until objRecordSet.EOF
 					
 				Case "tuinstijl_hengelo"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -788,7 +785,7 @@ Do Until objRecordSet.EOF
 					
 				Case "tuinstijl_joure"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -809,7 +806,7 @@ Do Until objRecordSet.EOF
 					
 				Case "tuinstijl_maarssen"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -830,7 +827,7 @@ Do Until objRecordSet.EOF
 					
 				Case "tuinstijl_roermond"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -851,7 +848,7 @@ Do Until objRecordSet.EOF
 					
 				Case "tuinstijl_roosendaal"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -872,7 +869,7 @@ Do Until objRecordSet.EOF
 					
 				Case "tuinstijl_stein"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -893,7 +890,7 @@ Do Until objRecordSet.EOF
 					
 				Case "tuinstijl_veldhoven"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -916,7 +913,7 @@ Do Until objRecordSet.EOF
 				'-------------------------------------------------------------------------------------------------------
 				Case "regio_directeur_zuid"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -937,7 +934,7 @@ Do Until objRecordSet.EOF
 					
 				Case "regio_directeur_midden-west"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -958,7 +955,7 @@ Do Until objRecordSet.EOF
 					
 				Case "regio_directeur_noord-oost"
 					' NU moeten we het info veld uitlezen van deze groep
-					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=btlgroep" & "," & "dc=domein"
+					strCN="LDAP://" & "CN=" & strGrpName(1) & "," & "OU=02 Security Groepen" & "," & "dc=e-genius" & "," & "dc=lan"
 					set objGroup = GetObject(strCN)
 					info=objGroup.info
 					bedrijf=objGroup.Description
@@ -1356,10 +1353,10 @@ End Function
 ' Connect to the WinNT: provider and ask it for the user's group memberships.
 ' For each group, get the RID and compare it against the users PrimaryGroupID.
 '
-Public Function PrimaryGroup(btlUser)
+Public Function PrimaryGroup(e-geniusUser)
    Dim objUser
    Dim Group, aGroup, PrimaryGroupRID
-   Set objUser = GetObject("WinNT://" & Domain & "/" & btlUser & ",user")
+   Set objUser = GetObject("WinNT://" & Domain & "/" & e-geniusUser & ",user")
    PrimaryGroupRID = objUser.Get("PrimaryGroupID")
    For Each Group in objUser.Groups
       aGroup = Group.Name
